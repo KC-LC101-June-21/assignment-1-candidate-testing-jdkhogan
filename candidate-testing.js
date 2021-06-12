@@ -1,11 +1,7 @@
 const input = require('readline-sync');
 
-// TODO 2: modify your quiz app to ask 5 questions //
 
-// TODO 1.1a: Define candidateName // 
 let candidateName;
-
-// TODO 1.2a: Define question, correctAnswer, and candidateAnswer //
 let question = 'Who was the first American woman in space? ';
 let correctAnswer = "Sally Ride";
 let candidateAnswer;
@@ -31,45 +27,16 @@ function askForName() {
 }
 
 function askQuestion() {
-  // TODO 1.2b: Ask candidate the question and assign the response as candidateAnswer //
-//  candidateAnswer = input.question(question);
-
-// TODO 2.2 Replace your code from TODO 1.2b with a loop that programmatically asks each question in the array and stores the user's responses.
   for (q in questions) {
     candidateAnswer = input.question(questions[q]);
     candidateAnswers.push(candidateAnswer);
   }
 }
 
-
 function gradeQuiz(candidateAnswers) {
-
-  // TODO 1.2c: Let the candidate know if they have answered the question correctly or incorrectly // 
-//   if (candidateAnswer === correctAnswer) {
-//     console.log("\n" + 
-//     "You're right. Sally Ride was the first!");
-//   } else {
-//     console.log("\n" + 
-// "Sorry, you got it wrong. Sally Ride was the first.");
-//   }
-
-// Replace the basic feedback from TODO 1.2c with a template literal that displays each of the candidate's responses in addition to the corresponding correct answers
-
-  yourAns = `You responded: `;
-  for (let i=0; i < 4; i++) {
-    yourAns += `"${candidateAnswers[i]}," `;
-  }
-  yourAns += `and "${candidateAnswers[4]}."`;
-  correctAns = `The correct answers are: `;
-  for (let i=0; i < 4; i++) {
-    correctAns += `"${correctAnswers[i]}," `;
-  }
-  correctAns += `and "${correctAnswers[4]}."`;
-  console.log(yourAns, correctAns);
-  
   let grade = 0;
   for (i in candidateAnswers) {
-    if (candidateAnswers[i] === correctAnswers[i]) {
+    if (candidateAnswers[i].toLowerCase() === correctAnswers[i].toLowerCase()) {
       grade += 1;
     } 
   }
@@ -77,14 +44,12 @@ function gradeQuiz(candidateAnswers) {
   return (100 * grade / 5) ;
 }
 
-function runProgram() {
-  askForName();
-  // TODO 1.1c: Ask for candidate's name //
-  console.log("Hello, " + candidateName + "!" + "\n")
-  askQuestion();
-  candidateGrade = gradeQuiz(this.candidateAnswers);
-
+function buildReport() {
+  let dashedLine = '-'.repeat(15);
+  console.log('\n' + dashedLine + '\n');
   console.log(`Candidate Name: ${candidateName}`);
+  console.log('\n' + dashedLine + '\n');
+  
   for (i in questions) {
     console.log(`${Number(i)+1}) ${questions[i]}`);
     console.log(`Your Answer: ${candidateAnswers[i]}`);
@@ -96,6 +61,15 @@ function runProgram() {
   } else {
     console.log('-- Status: Failed -- ');
   }
+}
+
+function runProgram() {
+  askForName();
+  // TODO 1.1c: Ask for candidate's name //
+  console.log("Hello, " + candidateName + "!" + "\n")
+  askQuestion();
+  candidateGrade = gradeQuiz(this.candidateAnswers);
+  buildReport();
 }
 
 // Don't write any code below this line //
