@@ -1,10 +1,10 @@
 const input = require('readline-sync');
 
 
-let candidateName;
+let candidateName = '';
 let question = 'Who was the first American woman in space? ';
 let correctAnswer = "Sally Ride";
-let candidateAnswer;
+let candidateAnswer = '';
 let questions = [
   'Who was the first American woman in space? ',
   'True or false: 5 kilometer == 5000 meters? ',
@@ -27,16 +27,18 @@ function askForName() {
 }
 
 function askQuestion() {
-  for (q in questions) {
-    candidateAnswer = input.question(questions[q]);
+  for (let q = 0; q < questions.length; q++) {
+    candidateAnswer = input.question(`${q+1}) ${questions[q]}`);
+    console.log(`Your Answer: ${candidateAnswer}`);
+    console.log(`Correct Answer: ${correctAnswers[q]}\n`)
     candidateAnswers.push(candidateAnswer);
   }
 }
 
 function gradeQuiz(candidateAnswers) {
   let grade = 0;
-  for (i in candidateAnswers) {
-    if (candidateAnswers[i].toLowerCase() === correctAnswers[i].toLowerCase()) {
+  for (let a = 0; a < candidateAnswers.length; a++) {
+    if (candidateAnswers[a].toLowerCase() === correctAnswers[a].toLowerCase()) {
       grade += 1;
     } 
   }
@@ -45,28 +47,19 @@ function gradeQuiz(candidateAnswers) {
 }
 
 function buildReport() {
-  let dashedLine = '-'.repeat(15);
-  console.log('\n' + dashedLine + '\n');
-  console.log(`Candidate Name: ${candidateName}`);
-  console.log('\n' + dashedLine + '\n');
-  
-  for (i in questions) {
-    console.log(`${Number(i)+1}) ${questions[i]}`);
-    console.log(`Your Answer: ${candidateAnswers[i]}`);
-    console.log(`Correct Answer: ${correctAnswers[i]}\n`);
-  }
-  console.log(`-- Your Grade: ${candidateGrade}% -- `);
+  console.log(`>>> Overall Grade: ${candidateGrade}% <<< `);
+  let outcome = '';
   if (candidateGrade >= 80) {
-    console.log('-- Status: Passed -- ');
-  } else {
-    console.log('-- Status: Failed -- ');
-  }
+    outcome = 'PASSED';
+  } else { outcome = 'FAILED'; }
+
+  console.log(`>>> Status: ${outcome} <<<`);
 }
 
 function runProgram() {
   askForName();
   // TODO 1.1c: Ask for candidate's name //
-  console.log("Hello, " + candidateName + "!" + "\n")
+  console.log("\nCandidate Name: " + candidateName)
   askQuestion();
   candidateGrade = gradeQuiz(this.candidateAnswers);
   buildReport();
